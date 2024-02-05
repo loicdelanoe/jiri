@@ -1,3 +1,17 @@
+<?php
+
+$jiris = [
+    ['id' => '1','name' => 'Projet Web 2025', 'date' => ''],
+    ['id' => '4','name' => 'Projet Web 2024', 'date' => ''],
+    ['id' => '78','name' => 'Design Web 2023', 'date' => ''],
+    ['id' => '99','name' => 'Design Web 2024', 'date' => ''],
+];
+// Filtrage des jiris globaux en fonction de la date
+$upcoming_jiris = [$jiris[0], $jiris[1],];
+$passed_jiris = [$jiris[2], $jiris[3],];
+
+?>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -13,18 +27,27 @@
         <h1>Les Jiris</h1>
         <section>
             <h2>Jiri à venir</h2>
-            <ol>
-                <?php foreach ($jiris as ): ?>
-                    <li><a class="text-blue-500 underline" href="/jiris/1">Projets Web 2025</a></li>
-                <?php endforeach; ?>
-            </ol>
+            <?php if (count($upcoming_jiris) > 0): ?>
+                <ol>
+                    <?php foreach ($upcoming_jiris as $jiri): ?>
+                        <li><a class="text-blue-500 underline" href="/jiris/<?= $jiri['id'] ?>"><?= $jiri['name'] ?></a></li>
+                    <?php endforeach; ?>
+                </ol>
+            <?php else: ?>
+                <p>Il n'y a pas de jiri à venir</p>
+            <?php endif; ?>
         </section>
         <section>
             <h2>Jiri passés</h2>
-            <ol>
-                <li><a class="text-blue-500 underline" href="/jiris/3">Projets Web 2024</a></li>
-                <li><a class="text-blue-500 underline" href="/jiris/4">Design Web 2023</a></li>
-            </ol>
+            <?php if (count($passed_jiris) > 0): ?>
+                <ol>
+                    <?php foreach ($passed_jiris as $jiri): ?>
+                        <li><a class="text-blue-500 underline" href="/jiris/<?= $jiri['id'] ?>"><?= $jiri['name'] ?></a></li>
+                    <?php endforeach; ?>
+                </ol>
+            <?php else: ?>
+                <p>Il n'y a pas de jiri archivés</p>
+            <?php endif; ?>
         </section>
     </main>
     <nav>
