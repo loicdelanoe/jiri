@@ -1,63 +1,53 @@
 <?php
 
 $jiris = [
-    ['id' => '1','name' => 'Projet Web 2025', 'date' => ''],
-    ['id' => '4','name' => 'Projet Web 2024', 'date' => ''],
-    ['id' => '78','name' => 'Design Web 2023', 'date' => ''],
-    ['id' => '99','name' => 'Design Web 2024', 'date' => ''],
+    ['id' => '1', 'name' => 'Projet Web 2025', 'date' => '2019-12-01'],
+    ['id' => '4', 'name' => 'Projet Web 2024', 'date' => '2025-01-27'],
+    ['id' => '78', 'name' => 'Design Web 2023', 'date' => '2003-09-12'],
+    ['id' => '99', 'name' => 'Design Web 2024', 'date' => '2024-03-04'],
+    ['id' => '9', 'name' => 'Design Web 2026', 'date' => '2026-05-04'],
+    ['id' => '90', 'name' => 'Design Web 2029', 'date' => '2029-05-04'],
+    ['id' => '80', 'name' => 'Design Web 2000', 'date' => '2000-05-04'],
 ];
-// Filtrage des jiris globaux en fonction de la date
-$upcoming_jiris = [$jiris[0], $jiris[1],];
-$passed_jiris = [$jiris[2], $jiris[3],];
 
-?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Jiris</title>
-</head>
-<body>
-<div class="flex flex-col flex-col-reverse gap-4 container mx-auto">
-    <main class="flex flex-col gap-4">
-        <h1>Les Jiris</h1>
-        <section>
-            <h2>Jiri à venir</h2>
-            <?php if (count($upcoming_jiris) > 0): ?>
-                <ol>
-                    <?php foreach ($upcoming_jiris as $jiri): ?>
-                        <li><a class="text-blue-500 underline" href="/jiris/<?= $jiri['id'] ?>"><?= $jiri['name'] ?></a></li>
-                    <?php endforeach; ?>
-                </ol>
-            <?php else: ?>
-                <p>Il n'y a pas de jiri à venir</p>
-            <?php endif; ?>
-        </section>
-        <section>
-            <h2>Jiri passés</h2>
-            <?php if (count($passed_jiris) > 0): ?>
-                <ol>
-                    <?php foreach ($passed_jiris as $jiri): ?>
-                        <li><a class="text-blue-500 underline" href="/jiris/<?= $jiri['id'] ?>"><?= $jiri['name'] ?></a></li>
-                    <?php endforeach; ?>
-                </ol>
-            <?php else: ?>
-                <p>Il n'y a pas de jiri archivés</p>
-            <?php endif; ?>
-        </section>
-    </main>
-    <nav>
-        <h2 class="sr-only">Menu principal</h2>
-        <ul class="flex gap-4">
-            <li><a href="/jiris">Jiris</a></li>
-            <li><a href="/contacts">Contacts</a></li>
-            <li><a href="/projects">Projets</a></li>
-        </ul>
-    </nav>
-</div>
-</body>
-</html>
+
+// Si TIMESTAMP de la date du jiri supérieur à la date d'aujourd'hui alors le jiri est à venir,
+// Sinon le jiri est passé et archivé.
+// 1. Convertir date en TIMESTAMP pour chaque jiri.
+// 2. Obtenir la date d'aujourd'hui en TIMESTAMP,
+// 3. Comparer les valeurs et les push dans leur array respectives.
+
+//function filterByDate($jiris)
+//{
+//    $upcoming_jiris = [];
+//    $passed_jiris = [];
+//
+//    foreach ($jiris as $jiri) {
+//        if (strtotime($jiri['date']) > time()) {
+//            $upcoming_jiris[] = $jiri;
+//        } else {
+//            $passed_jiris[] = $jiri;
+//        }
+//    }
+//
+//    return [
+//        'upcoming' => $upcoming_jiris,
+//        'passed' => $passed_jiris,
+//    ];
+//}
+
+
+$upcoming_jiris = array_filter($jiris, function ($jiri) {
+    return strtotime($jiri['date']) > time();
+});
+
+$passed_jiris = array_filter($jiris, function ($jiri) {
+    return strtotime($jiri['date']) < time();
+});
+
+
+// Filtrage des jiris globaux en fonction de la date
+//$upcoming_jiris = [$jiris[0], $jiris[1],];
+//$passed_jiris = [$jiris[2], $jiris[3],];
+
+require 'index.view.php';
