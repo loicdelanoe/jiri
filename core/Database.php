@@ -10,6 +10,7 @@ use PDOStatement;
 class Database
 {
     private PDO $pdo;
+    protected string $table;
 
     /**
      * @param PDO $pdo
@@ -71,5 +72,59 @@ class Database
         } catch (PDOException $exception) {
             die('Il y a un problème de connection à la base de donnée, contactez un administrateur');
         }
+    }
+
+    public function find(string $id): bool|\stdClass
+    {
+        $statement = $this->prepare(<<<SQL
+            SELECT * FROM $this->table
+                     WHERE id = :id
+            SQL
+        );
+        $statement->execute([
+            'id' => $id,
+        ]);
+        return $statement->fetch();
+    }
+
+    public function findOrFail(string $id): ?\stdClass
+    {
+        $jiri = $this->find($id);
+
+        if (!$jiri) {
+            Response::abort();
+        }
+
+        return $jiri;
+    }
+
+    public function delete(string $id): bool
+    {
+        $statement = $this->prepare(<<<SQL
+            DELETE FROM $this->table
+                     WHERE id = :id
+            SQL
+        );
+        return $statement->execute(['id' => $id,]);
+    }
+
+    public function update(string $id): bool
+    {
+        $statement = $this->prepare(<<<SQL
+            DELETE FROM $this->table
+                     WHERE id = :id
+            SQL
+        );
+        return $statement->execute(['id' => $id]);
+    }
+
+    public function create(array $data)
+    {
+        $statement = $this->prepare(<<<SQL
+            INSERT INTO $this->table (name, starting_at)
+                VALUES(:name, :starting_at)
+            SQL
+        );
+        return $statement->execute($data);
     }
 }

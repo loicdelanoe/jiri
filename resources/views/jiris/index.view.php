@@ -19,7 +19,7 @@
         <h1 class="text-3xl font-bold">Les Jiris</h1>
         <form action="/">
             <label for="search">Votre mot de recherche</label>
-            <input class="border" type="text" name="search" id="search">
+            <input class="border rounded-md px-2" type="text" name="search" id="search">
             <button class="rounded-md bg-blue-500 text-white px-4" type="submit">Rechercher</button>
         </form>
         <section>
@@ -28,7 +28,7 @@
                 <ol>
                     <?php foreach ($upcoming_jiris as $jiri): ?>
                         <li class="mb-1">
-                            <a class="text-blue-500 underline" href="/jiris/<?= $jiri->id ?>"><?= $jiri->name ?></a>
+                            <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
                             <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
                         </li>
                     <?php endforeach; ?>
@@ -43,7 +43,7 @@
                 <ol>
                     <?php foreach ($passed_jiris as $jiri): ?>
                         <li class="mb-1">
-                            <a class="text-blue-500 underline" href="/jiris/<?= $jiri->id ?>"><?= $jiri->name ?></a>
+                            <a class="text-blue-500 underline" href="/jiri?id=<?= $jiri->id ?>"><?= $jiri->name ?></a>
                             <p class="text-sm"><?= date('j F o', strtotime($jiri->starting_at)) ?></p>
                         </li>
                     <?php endforeach; ?>
@@ -52,6 +52,9 @@
                 <p>Il n'y a pas de jiri archivés</p>
             <?php endif; ?>
         </section>
+        <div>
+            <a href="/jiri/create" class="underline text-blue-500">Créer un nouveau Jiri</a>
+        </div>
     </main>
     <nav class="bg-slate-600 p-4">
         <h2 class="sr-only">Menu principal</h2>
