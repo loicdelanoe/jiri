@@ -13,7 +13,9 @@
     <main class="flex flex-col gap-4 mx-4">
         <a class="underline text-blue-500" href="/jiri?id=<?= $jiri->id ?>">← Annuler la modification</a>
         <h1 class="text-3xl font-bold"><?= $jiri->name ?></h1>
-        <form action="/jiri/update" method="post" class="flex flex-col gap-4 items-start">
+        <form action="/jiri" method="post" class="flex flex-col gap-4 items-start">
+            <?php method('patch'); ?>
+            <?php csrf_token() ?>
             <input type="hidden" name="id" value="<?= $jiri->id ?>">
             <div>
                 <label for="name" class="font-bold mr-2">Nom du jiri :</label>

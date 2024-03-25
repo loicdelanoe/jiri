@@ -56,7 +56,7 @@ class Database
         $username = $config['database']['DB_USERNAME'];
         $password = $config['database']['DB_PASSWORD'];
 
-        $dsn = sprintf('%s:host=%s;port=3307;dbname=%s;',
+        $dsn = sprintf('%s:host=%s;port=3306;dbname=%s;',
             $config['database']['DB_DRIVER'],
             $config['database']['DB_HOST'],
             $config['database']['DB_NAME']
