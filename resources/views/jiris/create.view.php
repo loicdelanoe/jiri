@@ -13,6 +13,7 @@
     <main class="flex flex-col gap-4 mx-4">
         <h1 class="text-3xl font-bold">Les Jiris</h1>
         <form action="/jiri" method="post" class="flex flex-col gap-4 items-start">
+            <?php csrf_token() ?>
             <div>
                 <label for="name" class="font-bold mr-2">Nom du jiri :</label>
                 <input class="border rounded-md px-2" type="text" name="name" id="name">

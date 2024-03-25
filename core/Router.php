@@ -2,39 +2,72 @@
 
 namespace Core;
 
+use Core\Exceptions\MiddlewareNotFoundException;
+use Core\middlewares\Middleware;
+
 class Router
 {
 
     private array $routes;
-    public function post(string $url, array $action)
-    {
-        $http_method = 'POST';
-        $this->add(compact('url', 'action', 'http_method'));
-    }
 
-    public function get(string $url, array $action)
+    public function get(string $url, array $action): Router
     {
         $http_method = 'GET';
-        $this->add(compact('url', 'action', 'http_method'));
+        return $this->add(compact('url', 'action', 'http_method'));
     }
 
-    public function add(array $route_info)
+    public function post(string $url, array $action): Router
+    {
+        $http_method = 'POST';
+        return $this->add(compact('url', 'action', 'http_method'));
+    }
+
+    public function patch(string $url, array $action): Router
+    {
+        $http_method = 'PATCH';
+        return $this->add(compact('url', 'action', 'http_method'));
+    }
+
+    public function delete(string $url, array $action): Router
+    {
+        $http_method = 'DELETE';
+        return $this->add(compact('url', 'action', 'http_method'));
+    }
+
+    public function add(array $route_info): Router
     {
         $this->routes[] = $route_info;
+        return $this;
     }
 
-    public function routeToController(string $path, string $http_method)
+    public function csrf(): Router
+    {
+        $this->routes[array_key_last($this->routes)]['middlewares'][] = 'csrf';
+        return $this;
+    }
+
+    public function routeToController(string $path, string $http_method): void
     {
         $route = array_values(array_filter(
             $this->routes,
-            fn ($v, $k)
-                => $path === $v['url'] && $http_method === $v['http_method']
-            ,
+            fn($v, $k) => $path === $v['url'] && strtoupper($http_method) === strtoupper($v['http_method']),
             ARRAY_FILTER_USE_BOTH
         ));
+
         if (empty($route)) {
             Response::abort();
         }
+
+        if (isset($route[0]['middlewares'])) {
+            foreach ($route[0]['middlewares'] as $middleware) {
+                try {
+                    Middleware::resolve($middleware);
+                } catch (MiddlewareNotFoundException $exception) {
+                    dd($exception->getMessage());
+                }
+            }
+        }
+
         $route = $route[0];
         $controller = new $route['action'][0]();
         $controller->{$route['action'][1]}();

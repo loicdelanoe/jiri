@@ -44,12 +44,13 @@ class JiriController
 
     public function create(): void
     {
+        $_SESSION['csrf_token'] = get_csrf_token();
+
         view('jiris.create');
     }
 
     public function store(): void
     {
-        // Validation
         if (!isset($_POST['name'], $_POST['starting_at'])) {
             Response::abort(Response::BAD_REQUEST);
         }

@@ -30,7 +30,9 @@
         <div>
             <a href="/jiri/edit?id=<?= $jiri->id ?>" class="underline text-blue-500">Modifier ce jiri</a>
         </div>
-        <form action="/jiri/delete" method="post">
+        <form action="/jiri" method="post">
+            <?php csrf_token(); ?>
+            <?php method('delete'); ?>
             <input type="hidden" name="id" value="<?= $jiri->id ?>">
             <button type="submit" class="text-red-500">Supprimer ce jiri</button>
         </form>

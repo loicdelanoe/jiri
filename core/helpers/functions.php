@@ -22,3 +22,25 @@ function base_path(string $path = ''): string
 {
     return BASE_PATH . ($path ? ('/' . $path) : $path);
 }
+
+function method(string $method): void
+{
+    echo <<<HTML
+        <input type="hidden" name="_method" value="$method"/>
+    HTML;
+
+}
+
+function get_csrf_token(): string
+{
+    return bin2hex(random_bytes(32));
+}
+
+function csrf_token()
+{
+
+    $_SESSION['csrf_token'] = get_csrf_token();
+    echo <<<HTML
+        <input type="hidden" name="_csrf" value="{$_SESSION['csrf_token']}">
+    HTML;
+}
