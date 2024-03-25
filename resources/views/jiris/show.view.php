@@ -14,11 +14,13 @@
 </head>
 <body>
 <div class="flex flex-col flex-col-reverse gap-4">
-    <main class="flex flex-col gap-4 mx-4">
-        <a class="underline text-blue-500" href="/jiris">← Retour aux Jiris</a>
-        <h1 class="text-3xl font-bold"><?= $jiri->name ?></h1>
-        <dl>
-            <div>
+    <main class="flex flex-col gap-4 mx-auto max-w-screen-xl pt-5">
+        <div class="flex items-center gap-10 mb-5 justify-between">
+            <a class="underline text-blue-500" href="/jiris">← Retour aux Jiris</a>
+            <h1 class="text-3xl font-bold"><?= $jiri->name ?></h1>
+        </div>
+        <dl class="mb-5">
+            <div class="mb-3">
                 <dt class="font-bold">Nom :</dt>
                 <dd><?= $jiri->name ?></dd>
             </div>
@@ -27,15 +29,15 @@
                 <dd><?= $jiri->starting_at ?></dd>
             </div>
         </dl>
-        <div>
+        <div class="flex gap-10 items-center">
             <a href="/jiri/edit?id=<?= $jiri->id ?>" class="underline text-blue-500">Modifier ce jiri</a>
+            <form action="/jiri" method="post">
+                <?php csrf_token(); ?>
+                <?php method('delete'); ?>
+                <input type="hidden" name="id" value="<?= $jiri->id ?>">
+                <button type="submit" class="text-white bg-red-500 px-4 py-2 rounded-md">Supprimer ce jiri</button>
+            </form>
         </div>
-        <form action="/jiri" method="post">
-            <?php csrf_token(); ?>
-            <?php method('delete'); ?>
-            <input type="hidden" name="id" value="<?= $jiri->id ?>">
-            <button type="submit" class="text-red-500">Supprimer ce jiri</button>
-        </form>
     </main>
     <nav class="bg-slate-600 p-4">
         <h2 class="sr-only">Menu principal</h2>

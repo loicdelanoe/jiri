@@ -10,22 +10,21 @@
 </head>
 <body>
 <div class="flex flex-col flex-col-reverse gap-4">
-    <main class="flex flex-col gap-4 mx-4">
-        <a class="underline text-blue-500" href="/jiri?id=<?= $jiri->id ?>">← Annuler la modification</a>
-        <h1 class="text-3xl font-bold"><?= $jiri->name ?></h1>
+    <main class="flex flex-col gap-4 mx-auto max-w-screen-xl pt-5">
+        <div class="flex items-center gap-10 mb-5 justify-between">
+            <a class="underline text-blue-500" href="/jiri?id=<?= $jiri->id ?>">← Annuler la modification</a>
+            <h1 class="text-3xl font-bold"><?= $jiri->name ?></h1>
+        </div>
         <form action="/jiri" method="post" class="flex flex-col gap-4 items-start">
             <?php method('patch'); ?>
             <?php csrf_token() ?>
             <input type="hidden" name="id" value="<?= $jiri->id ?>">
-            <div>
-                <label for="name" class="font-bold mr-2">Nom du jiri :</label>
-                <input class="border rounded-md px-2" type="text" name="name" id="name" value="<?= $jiri->name ?>">
-            </div>
-            <div>
-                <label for="starting_at" class="font-bold mr-2">Date de début :</label>
-                <input class="border rounded-md px-2" type="text" name="starting_at" id="starting_at" value="<?= $jiri->starting_at ?>">
-            </div>
-            <button class="rounded-md bg-blue-500 text-white px-4" type="submit">Modifier ce jiri</button>
+            <label for="name" class="font-bold mr-2">Nom du jiri :</label>
+            <input class="border rounded-md p-2 w-full" type="text" name="name" id="name" value="<?= $jiri->name ?>">
+            <label for="starting_at" class="font-bold mr-2">Date de début :</label>
+            <input class="border rounded-md p-2 w-full mb-5" type="text" name="starting_at" id="starting_at"
+                   value="<?= $jiri->starting_at ?>">
+            <button class="rounded-md bg-blue-500 text-white px-4 py-2" type="submit">Modifier ce jiri</button>
         </form>
 
     </main>
